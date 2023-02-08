@@ -1,0 +1,40 @@
+FROM node:lts-alpine AS build
+
+# make the 'app' folder the current working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH - allow running 'vite'
+#ENV PATH /app/node_modules/.bin:$PATH
+
+# copy both 'package.json' and 'package-lock.json' (if available)
+COPY package*.json ./
+
+# install project dependencies
+#RUN mkdir -p /app/node_modules
+#
+#RUN chown -R node:node /app/node_modules
+COPY . .
+# RUN npm ci
+RUN npm run build
+#RUN mkdir -p /app/node_modules/.vite/deps_temp
+# EXPOSE 3000
+# copy project files and folders to the current working directory (i.e. 'app' folder)
+
+FROM nginx:1.22.1-alpine AS prod-stage
+COPY --from=build /app/dist /usr/share/nginx/html/account
+EXPOSE 3000
+CMD ["nginx", "-g", "daemon off;"]
+
+# CMD [ "npm", "run", "dev" ]
+
+# FROM node:lts-alpine AS build
+# WORKDIR /app
+# COPY package.json ./
+# RUN npm install
+# COPY . .
+# RUN npm run build
+
+# FROM nginx:1.22.1-alpine AS prod-stage
+# COPY --from=build /app/dist /usr/share/nginx/html
+# EXPOSE 3000
+# CMD ["nginx", "-g", "daemon off;"]

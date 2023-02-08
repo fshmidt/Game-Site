@@ -1,0 +1,5 @@
+.env
+*.pem
+test.go
+serviceAccount.json
+.bin
