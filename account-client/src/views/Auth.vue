@@ -45,8 +45,8 @@ export default defineComponent({
     const setIsLogin = (nextVal) => {
       isLogin.value = nextVal;
     };
-    const authSubmitted = ({ email, password }) => {
-      isLogin.value ? signin(email, password) : signup(email, password);
+    const authSubmitted = ({ email, password, username }) => {
+      isLogin.value ? signin(email, password, username) : signup(email, password, username);
     };
     return {
       isLogin,

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Document</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="ready-html/libs/swiper/swiper-bundle.min.css">
+	<script src="ready-html/libs/swiper/swiper-bundle.min.js" defer></script>
+	<script src="ready-html/libs/particles/particles.js" defer></script>
+	<script src="ready-html/libs/hammer/hammer.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js" integrity="sha512-L6Z/YtIPQ7eU3BProP34WGU5yIRk7tNHk7vaC2dB1Vy1atz6wl9mCkTPPZ2Rn1qPr+vY2mZ9odZLdGYuaBk7dQ==" crossorigin="anonymous"></script>
+	
+	<link rel="stylesheet" href="ready-html/css/main.css">
+	<script src="ready-html/js/app.js" defer></script>
+
+</head>
+
+
+
+<body>	
+
+	<div class="user">
+		<a id="user" href="/account/">Sign In/ Sign Up</a>
+	</div>
+
+	<div class="gameovertable">
+		<div id="gameoverpapper" data-swiper-parallax="90%" style="background-image: url(ready-html/img/common/gameovertable.png);">
+			<pre id="gameovercontent">Your score is ...</pre>
+			<pre id="gameovercontent2">Sign in/Sign up to save it. (left-bottom corner)</pre>
+		</div>
+		<ul id="gameoverbuttons">
+			<li><button onclick="location.href = '/';" class="gameoverbuttons" id="playagainbutton">Play Again</button></li>
+			<li><button class="gameoverbuttons" id="topscorersbutton">Top Scorers</button></li>
+		</ul>
+		<div class="button-close"  style="background-image: url(ready-html/img/common/close.png);"></div>
+
+	</div>
+
+	<ul class="score">
+		<li><p id="score">Score:</p></li>
+		<li><p id="scoreNums">0</p></li>
+	</ul>
+
+	<div class="audioo">
+		<div class="button-mute"  style="background-image: url(ready-html/img/common/mute.png);"></div>
+		<div class="button-unmute"  style="background-image: url(ready-html/img/common/unmute.png);"></div>
+	</div>
+
+	<div id="mainSlider" class="swiper slider">
+		<div class="swiper-wrapper slider__wrapper"></div>
+		<div class="swiper-button-next"></div>
+	</div>
+
+</body>
+
+</html>

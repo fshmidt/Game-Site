@@ -11,6 +11,7 @@ import (
 // signupReq is not exported, hence the lowercase name
 // it is used for validation and json marshalling
 type signupReq struct {
+	Username string `json:"username" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required,gte=6,lte=30"`
 }
@@ -18,20 +19,26 @@ type signupReq struct {
 // Signup handler
 func (h *Handler) Signup(c *gin.Context) {
 	// define a variable to which we'll bind incoming
-	// json body, {email, password}
+	// json body, {name, email, password}
 	var req signupReq
-
+	log.Println("HANDLER start")
 	// Bind incoming json to struct and check for validation errors
 	if ok := bindData(c, &req); !ok {
 		return
 	}
+	log.Println("NOT HERE????")
 
 	u := &model.User{
+		Username: req.Username,
 		Email:    req.Email,
 		Password: req.Password,
 	}
+	log.Println("HERE")
 
 	ctx := c.Request.Context()
+
+	log.Println("HANDLER OK")
+
 	err := h.UserService.Signup(ctx, u)
 
 	if err != nil {

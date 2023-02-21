@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-8 my-8">
+  <div class="mx-8 my-8 pb-1 pt-1 bg-cover bg-philippines">
     <Loader
         v-if="isLoading"
         :height="512"

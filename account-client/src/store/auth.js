@@ -20,11 +20,11 @@ const state = reactive({
 const storeSymbol = Symbol();
 
 
-const signin = async (email, password) =>
-    await authenticate(email, password, '/api/account/signin');
+const signin = async (email, password, username) =>
+    await authenticate(email, password, username,'/api/account/signin');
 
-const signup = async (email, password) =>
-    await authenticate(email, password, '/api/account/signup');
+const signup = async (email, password, username) =>
+    await authenticate(email, password, username, '/api/account/signup');
 
 
 
@@ -58,7 +58,8 @@ const initializeUser = async () => {
     state.isLoading = true;
     state.error = null;
 
-    const [idToken, refreshToken] = getTokens();
+    const [idToken, refreshToken, email, username] = getTokens();
+    // console.log("INITIALIZEUSER", idToken,refreshToken,email);
 
     const idTokenClaims = getTokenPayload(idToken);
     const refreshTokenClaims = getTokenPayload(refreshToken);
@@ -91,7 +92,9 @@ const initializeUser = async () => {
     }
 
     const { tokens } = data;
-    storeTokens(tokens.idToken, tokens.refreshToken);
+    // console.log("INITIALIZEUSER-2", data);
+
+    storeTokens(tokens.idToken, tokens.refreshToken, email, username);
 
     const updatedIdTokenClaims = getTokenPayload(tokens.idToken);
 
@@ -144,7 +147,7 @@ export function useAuth() {
 }
 
 // authenticate implements common code between signin and signup
-const authenticate = async (email, password, url) => {
+const authenticate = async (email, password, username, url) => {
     state.isLoading = true;
     state.error = null;
 
@@ -152,6 +155,7 @@ const authenticate = async (email, password, url) => {
         url,
         method: 'post',
         data: {
+            username,
             email,
             password,
         },
@@ -165,7 +169,8 @@ const authenticate = async (email, password, url) => {
 
     const { tokens } = data;
 
-    storeTokens(tokens.idToken, tokens.refreshToken);
+    storeTokens(tokens.idToken, tokens.refreshToken, email, username);
+    console.log(localStorage.getItem('email'),localStorage.getItem('username'));
 
     const tokenClaims = getTokenPayload(tokens.idToken);
 

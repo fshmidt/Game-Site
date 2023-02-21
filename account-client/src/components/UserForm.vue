@@ -1,7 +1,13 @@
 <template>
   <div class="max-w-3xl mx-auto">
+
     <ImageCropper  @imageCropped="$emit('imageSubmitted', $event)"/>
     <div class="max-w-xl px-4 mx-auto">
+      <div class="my-1">
+        <h1 class=" font-semibold my-1" id="hey" >Hey, {{usernameValue}}</h1>
+        <label for="score" class="text-center font-semibold">Your Max Score: {{scoreValue}}</label>
+
+      </div>
       <div class="my-1">
         <label for="email" class="font-semibold">Email Address</label>
         <input
@@ -23,22 +29,22 @@
         </div>
       </div>
       <div class="my-1">
-        <label for="name" class="font-semibold">Name</label>
+        <label for="username" class="font-semibold">Username</label>
         <input
             type="text"
-            name="name"
-            placeholder="Name"
-            @value="nameValue"
-            @input="handleNameChange"
-            @blur="handleNameBlur"
+            username="username"
+            placeholder="Username"
+            :value="usernameValue"
+            @input="handleUsernameChange"
+            @blur="handleUsernameBlur"
             class="px-4 my-2 min-w-full mx-auto border border-gray-500 rounded-full focus:outline-none focus:ring-1 focus:border-blue-300"
         />
         <div class="h-6">
           <p
-              v-show="nameMeta.touched && !nameMeta.valid"
+              v-show="usernameMeta.touched && !usernameMeta.valid"
               class="text-center text-red-500"
           >
-            {{ nameErrorMessage }}
+            {{ usernameErrorMessage }}
           </p>
         </div>
       </div>
@@ -62,7 +68,7 @@
           </p>
         </div>
       </div>
-      <div class="mt-6">
+      <div>
         <button
             :disabled="!formMeta.valid || !formMeta.dirty"
             class="btn btn-blue w-32 block mx-auto"
@@ -70,13 +76,19 @@
         >
           Update
         </button>
+        <button
+            class="btn bg-green-800 text-white mt-1 block mx-auto"
+
+        >
+          <a class="text-center btn btn-primary" href="http://gamesite.test/">Back to Game</a>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
 import { useForm, useField } from 'vee-validate';
 import ImageCropper from './ui/ImageCropper.vue';
 export default defineComponent({
@@ -93,6 +105,11 @@ export default defineComponent({
   emits: ['detailsSubmitted', 'imageSubmitted'],
   setup(props, { emit }) {
     const { meta: formMeta, handleSubmit } = useForm();
+
+    var scoreValue = props.user.score;
+    var newscoreValue = scoreValue;
+    const oldscoreValue = scoreValue;
+
     const {
       value: emailValue,
       meta: emailMeta,
@@ -104,15 +121,16 @@ export default defineComponent({
       validateOnMount: true,
     });
     const {
-      value: nameValue,
-      meta: nameMeta,
-      errorMessage: nameErrorMessage,
-      handleBlur: handleNameBlur,
-      handleChange: handleNameChange,
-    } = useField('name', 'name', {
-      initialValue: props.user.name,
+      value: usernameValue,
+      meta: usernameMeta,
+      errorMessage: usernameErrorMessage,
+      handleBlur: handleUsernameBlur,
+      handleChange: handleUsernameChange,
+    } = useField('username', 'username', {
+      initialValue: props.user.username,
       validateOnMount: true,
     });
+
     const {
       value: websiteValue,
       meta: websiteMeta,
@@ -123,25 +141,45 @@ export default defineComponent({
       initialValue: props.user.website,
       validateOnMount: true,
     });
+    const currentScore = parseInt(localStorage.getItem('score') || '0');
+
+    if (currentScore > scoreValue) {
+      scoreValue = currentScore;
+      newscoreValue = scoreValue;
+      localStorage.setItem('record', scoreValue)
+    } else{
+      localStorage.setItem('record', scoreValue)
+    }
+
+
     const submitDetails = handleSubmit((formValues) => {
       emit('detailsSubmitted', {
         email: formValues.email,
-        name: formValues.name,
+        username: formValues.username,
         website: formValues.website,
+        score: scoreValue,
       });
+      localStorage.setItem('email', formValues.email);
+      localStorage.setItem('username', formValues.username);
     });
+    console.log("SCORES", newscoreValue, oldscoreValue);
+    if (newscoreValue > oldscoreValue) {
+      submitDetails();
+    }
+
     return {
+      scoreValue,
       formMeta,
       emailValue,
       emailMeta,
       emailErrorMessage,
       handleEmailBlur,
       handleEmailChange,
-      nameValue,
-      nameMeta,
-      nameErrorMessage,
-      handleNameBlur,
-      handleNameChange,
+      usernameValue,
+      usernameMeta,
+      usernameErrorMessage,
+      handleUsernameBlur,
+      handleUsernameChange,
       websiteValue,
       websiteMeta,
       websiteErrorMessage,

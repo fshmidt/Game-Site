@@ -28,8 +28,11 @@ func bindData(c *gin.Context, req interface{}) bool {
 		})
 		return false
 	}
+
 	// Bind incoming json to struct and check for validation errors
+
 	if err := c.ShouldBind(req); err != nil {
+
 		log.Printf("Error binding data: %+v\n", err)
 
 		if errs, ok := err.(validator.ValidationErrors); ok {
@@ -51,8 +54,10 @@ func bindData(c *gin.Context, req interface{}) bool {
 				"error":       err,
 				"invalidArgs": invalidArgs,
 			})
+
 			return false
 		}
+		//log.Println("BIND DATA Here")
 
 		// later we'll add code for validating max body size here!
 
@@ -63,6 +68,7 @@ func bindData(c *gin.Context, req interface{}) bool {
 		c.JSON(fallBack.Status(), gin.H{"error": fallBack})
 		return false
 	}
+	log.Println("BIND DATA  Ok")
 
 	return true
 }

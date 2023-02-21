@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text 3xl text-center my-8">User Account</h1>
+
   <Loader
       v-if="loading"
       :height="256"

@@ -20,7 +20,7 @@
     }
 
     .btn-blue {
-        @apply bg-blue-500 text-white;
+        @apply bg-blue-600 text-white;
     }
 
     .btn-shit {
@@ -28,11 +28,11 @@
     }
 
     .btn-gray {
-        @apply bg-blue-100 text-black text-opacity-70;
+        @apply bg-gray-100 text-black text-opacity-70;
     }
 
     .btn-red {
-        @apply bg-red-600 text-white;
+        @apply bg-red-800 text-white;
     }
 
     .btn-blue:hover {

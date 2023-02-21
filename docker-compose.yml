@@ -71,6 +71,21 @@ services:
       - ./account-client:/app
     depends_on:
       - reverse-proxy
+  parallax:
+    build:
+      context: ./parallax
+    image: parallax
+    expose:
+      - "8090"
+    ports:
+      - "8090:8090"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.parallax.rule=Host(`gamesite.test`) && PathPrefix(`/`)"
+    volumes:
+      - ./parallax:/usr/share/nginx/html
+    depends_on:
+      - reverse-proxy
 volumes:
   pgdata_account:
   redisdata:

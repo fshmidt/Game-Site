@@ -75,22 +75,34 @@ export const useRequest = (reqOptions, options) => {
 
 const idTokenKey = '_gamesiteId';
 const refreshTokenKey = 'refreshTokenKey';
+const emailKey = 'email';
+const usernameKey = 'username';
+const recordKey = 'record';
+const scoreKey = 'score';
 
 // storeTokens utility for storing idAndRefreshToken
-export const storeTokens = (idToken, refreshToken) => {
+export const storeTokens = (idToken, refreshToken, email, username) => {
     localStorage.setItem(idTokenKey, idToken);
     localStorage.setItem(refreshTokenKey, refreshToken);
+    localStorage.setItem(emailKey, email);
+    localStorage.setItem(usernameKey, username);
 };
 
 export const removeTokens = () => {
     localStorage.removeItem(idTokenKey);
     localStorage.removeItem(refreshTokenKey);
+    localStorage.removeItem(emailKey);
+    localStorage.removeItem(usernameKey);
+    localStorage.removeItem(recordKey);
+    localStorage.removeItem(scoreKey);
 };
 
 export const getTokens = () => {
     return [
         localStorage.getItem(idTokenKey),
         localStorage.getItem(refreshTokenKey),
+        localStorage.getItem(emailKey),
+        localStorage.getItem(usernameKey)
     ];
 };
 

@@ -9,9 +9,10 @@ import (
 )
 
 type detailsReq struct {
-	Name    string `json:"name" binding:"omitempty,max=50"`
-	Email   string `json:"email" binding:"required,email"`
-	Website string `json:"website" binding:"omitempty,url"`
+	Username string `json:"username" binding:"omitempty,max=50"`
+	Email    string `json:"email" binding:"required,email"`
+	Website  string `json:"website" binding:"omitempty,url"`
+	Score    int    `json:"score"`
 }
 
 // Details handler
@@ -26,10 +27,11 @@ func (h *Handler) Details(c *gin.Context) {
 
 	// Should be returned with current imageURL
 	u := &model.User{
-		UID:     authUser.UID,
-		Name:    req.Name,
-		Email:   req.Email,
-		Website: req.Website,
+		UID:      authUser.UID,
+		Username: req.Username,
+		Email:    req.Email,
+		Website:  req.Website,
+		Score:    req.Score,
 	}
 
 	ctx := c.Request.Context()

@@ -29,7 +29,7 @@ defineRule('confirmPassword', (value, [target], ctx) => {
     return 'Passwords must match';
 });
 
-defineRule('name', (value) => {
+defineRule('username', (value) => {
     return max(value, { length: 60 })
         ? true
         : 'Name may not exceed 60 characters';

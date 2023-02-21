@@ -25,16 +25,16 @@ func NewUserRepository(db *sqlx.DB) model.UserRepository {
 
 // Create reaches out to database SQLX api
 func (r *pGUserRepository) Create(ctx context.Context, u *model.User) error {
-	query := "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *"
+	query := "INSERT INTO users (email, password, username) VALUES ($1, $2, $3) RETURNING *"
 
-	if err := r.DB.GetContext(ctx, u, query, u.Email, u.Password); err != nil {
+	if err := r.DB.GetContext(ctx, u, query, u.Email, u.Password, u.Username); err != nil {
 		// check unique constraint
 		if err, ok := err.(*pq.Error); ok && err.Code.Name() == "unique_violation" {
-			log.Printf("Could not create a user with email: %v. Reason: %v\n", u.Email, err.Code.Name())
+			log.Printf("Could not create a user with email: %v and/or name %v. Reason: %v\n", u.Email, u.Username, err.Code.Name())
 			return apperrors.NewConflict("email", u.Email)
 		}
 
-		log.Printf("Could not create a user with email: %v. Reason: %v\n", u.Email, err)
+		log.Printf("Could not create a user with email: %v and/or name %v.. Reason: %v\n", u.Email, u.Username, err)
 		return apperrors.NewInternal()
 	}
 	return nil
@@ -72,7 +72,7 @@ func (r *pGUserRepository) FindByEmail(ctx context.Context, email string) (*mode
 func (r *pGUserRepository) Update(ctx context.Context, u *model.User) error {
 	query := `
 		UPDATE users 
-		SET name=:name, email=:email, website=:website
+		SET username=:username, email=:email, website=:website, score=:score
 		WHERE uid=:uid
 		RETURNING *;
 	`
@@ -113,4 +113,17 @@ func (r *pGUserRepository) UpdateImage(ctx context.Context, uid uuid.UUID, image
 	}
 
 	return u, nil
+}
+
+func (r *pGUserRepository) TopScorers() ([]model.User, error) {
+	var topScorers []model.User
+
+	query := "select username, score from users order by score desc limit 7;"
+
+	// we need to actually check errors as it could be something other than not found
+	if err := r.DB.Select(&topScorers, query); err != nil {
+		return nil, err
+	}
+
+	return topScorers, nil
 }

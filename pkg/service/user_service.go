@@ -74,6 +74,12 @@ func (s *userService) Get(ctx context.Context, uid uuid.UUID) (*model.User, erro
 	return u, err
 }
 
+func (s *userService) TopScorers() ([]model.User, error) {
+	u, err := s.UserRepository.TopScorers()
+
+	return u, err
+}
+
 // Signup reaches our to a UserRepository to verify the
 // email address is available and signs up the user if this is the case
 func (s *userService) Signup(ctx context.Context, u *model.User) error {
@@ -86,6 +92,9 @@ func (s *userService) Signup(ctx context.Context, u *model.User) error {
 	// now I realize why I originally used Signup(ctx, email, password)
 	// then created a user. It's somewhat un-natural to mutate the user here
 	u.Password = pw
+
+	log.Println("USER SERVICE SIGNUP OK")
+
 	if err := s.UserRepository.Create(ctx, u); err != nil {
 		return err
 	}
@@ -134,12 +143,6 @@ func (s *userService) UpdateDetails(ctx context.Context, u *model.User) error {
 	if err != nil {
 		return err
 	}
-
-	// // Publish user updated
-	// err = s.EventsBroker.PublishUserUpdated(u, false)
-	// if err != nil {
-	// 	return apperrors.NewInternal()
-	// }
 
 	return nil
 }

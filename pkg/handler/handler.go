@@ -57,4 +57,5 @@ func NewHandler(c *Config) {
 	g.POST("/signup", h.Signup)
 	g.POST("/signin", h.Signin)
 	g.POST("/tokens", h.Tokens)
+	g.GET("/topscorers", h.TopScorers)
 }

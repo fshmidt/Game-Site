@@ -3,6 +3,28 @@
     <h1 class="text-xl text-center font-semibold mb-2">
       {{ isLogin ? 'Login' : 'Sign Up' }}
     </h1>
+    <template>
+
+    </template>
+    <input
+        type="text"
+        placeholder="Username"
+        @input="usernameField.handleChange"
+        @blur="usernameField.handleBlur()"
+        @value="usernameField.value"
+        class="px-4 my-2 min-w-full mx-auto border border-gray-500 rounded-full focus:outline-none focus:ring-1 focus:border-blue-300"
+    />
+    <p
+        class="text-center text-red-500"
+        :style="{
+        visibility:
+          usernameField.meta.touched && !usernameField.meta.valid
+            ? 'visible'
+            : 'hidden',
+      }"
+    >
+      {{ usernameField.errorMessage || 'Field is Required' }}
+    </p>
     <input
         type="text"
         placeholder="Email Address"
@@ -108,6 +130,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const { meta: formMeta, handleSubmit } = useForm();
+    const usernameField = reactive(useField('username', 'username'));
     const emailField = reactive(useField('email', 'email'));
     const passwordField = reactive(useField('password', 'password'));
     const confirmPasswordValidator = computed(() => {
@@ -124,11 +147,13 @@ export default defineComponent({
     );
     const submitForm = handleSubmit((formValues) => {
       emit('submitAuth', {
+        username: formValues.username,
         email: formValues.email,
         password: formValues.password,
       });
     });
     return {
+      usernameField,
       emailField,
       passwordField,
       confirmPasswordField,

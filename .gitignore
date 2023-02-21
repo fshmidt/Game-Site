@@ -3,3 +3,4 @@
 test.go
 serviceAccount.json
 .bin
+.idea
