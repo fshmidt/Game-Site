@@ -393,10 +393,11 @@ var sfx = {
 		 volume: 0.2,
 	}),
  }
- 
+ var tracks = ["kerosene.mp3", "husk.mp3", "magazin.mp3"];
+
  var music = {
 	track: new Howl({
-		src: ["husk.mp3"],
+		src: [tracks[Math.floor(Math.random() * 3)]],
 		autoplay: true,
 		loop: true,
 		volume: 0.07,
