@@ -1,21 +1,21 @@
-FROM node:lts-alpine
+FROM node:14-alpine
 
-# make the 'app' folder the current working directory
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH - allow running 'vite'
-#ENV PATH /app/node_modules/.bin:$PATH
+# Install global dependencies
+RUN npm install vite --global
 
-# copy both 'package.json' and 'package-lock.json' (if available)
+# Install app dependencies
 COPY package*.json ./
-
-# install project dependencies
-
-
-# copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY . .
 RUN npm install --unsafe-perm=true --allow-root
-RUN npm install vite@4.0.0 --unsafe-perm=true --allow-root
-#RUN chown -R node ~/.npm
-#RUN chown -R node /app/node_modules/
+
+# Copy app source code
+COPY . .
+
+# Build app
+RUN npm run build
+
+RUN npm install @vitejs/plugin-vue --unsafe-perm=true --allow-root
+# Start app
 CMD [ "npm", "run", "dev", "--unsafe-perm=true", "--allow-root"]
+

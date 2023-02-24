@@ -178,16 +178,14 @@ html, body {
 	width: 320px;
 }
 #gameovercontent2{
-	/* width: 30px; */
 	font-family: island;
 	background-size: cover;
 	line-height: 35px;
 	will-change: transform;
 	text-align: center;
-	font-size: 35px;
+	font-size: 33px;
 	color: #240f06;
 	font-weight: 600;
-	/* margin-right: 25px; */
 	width: 300px;
 	word-wrap: break-word;
 	white-space: normal;

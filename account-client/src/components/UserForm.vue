@@ -80,7 +80,7 @@
             class="btn bg-green-800 text-white mt-1 block mx-auto"
 
         >
-          <a class="text-center btn btn-primary" href="http://gamesite.test/">Back to Game</a>
+          <a class="text-center btn btn-primary" href="http://eugenes.world/">Back to Game</a>
         </button>
       </div>
     </div>

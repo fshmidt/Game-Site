@@ -456,7 +456,7 @@ function submitRecord() {
 	const sc = localStorage.getItem('score');
 	const url = "/api/account/details";
 	const token = localStorage.getItem('_gamesiteId');
-	const name = localStorage.getItem('username')
+	const name = localStorage.getItem('username');
 
 	(async () => {
 		const rawResponse = await fetch(url, {
@@ -488,7 +488,11 @@ function topScorers() {
 			let table = '';
 			for (let i=0; i < obj.length; i++){
 				let str = obj[i];
-				table = table + (i+1) + '. ' + str.username + '_'.repeat(14 - str.username.length - str.score.toString(10).length) + str.score + '\n';
+				let okName = str.username;
+				if ( okName.length > 9){
+					okName = okName.substring(0,10);
+				}
+				table = table + (i+1) + '. ' + okName + '_'.repeat(14 - okName.length - str.score.toString(10).length) + str.score + '\n';
 			}
 			return table;
 		});

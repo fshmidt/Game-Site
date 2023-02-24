@@ -45,7 +45,7 @@ services:
       - "8080"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.account.rule=Host(`gamesite.test`) && PathPrefix(`/api/account`)"
+      - "traefik.http.routers.account.rule=Host(`eugenes.world`) && PathPrefix(`/api/account`)"
     environment:
       - ENV=dev
     volumes:
@@ -66,7 +66,7 @@ services:
       - "3000:3000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.account-client.rule=Host(`gamesite.test`) && PathPrefix(`/account`)"
+      - "traefik.http.routers.account-client.rule=Host(`eugenes.world`) && PathPrefix(`/account`)"
     volumes:
       - ./account-client:/app
     depends_on:
@@ -81,7 +81,7 @@ services:
       - "8090:8090"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.parallax.rule=Host(`gamesite.test`) && PathPrefix(`/`)"
+      - "traefik.http.routers.parallax.rule=Host(`eugenes.world`) && PathPrefix(`/`)"
     volumes:
       - ./parallax:/usr/share/nginx/html
     depends_on:
